@@ -56,15 +56,15 @@ const cellClicked = (e) => {
         const checker = (arr, target) => target.every((v) => arr.includes(v));
         if (checker(indexesX, WINNING_COMBINATIONS[i])) {
           displayResult.textContent = 'X winnns';
+          disableBoard();
         } else if (checker(indexesO, WINNING_COMBINATIONS[i])) {
           displayResult.textContent = 'O winnns';
+          disableBoard();
         } else if (indexesX.length === 5) {
           displayResult.textContent = `It's a draw`;
+          disableBoard();
         }
       }
-      cells.forEach((cell) => {
-        cell.removeEventListener('click', cellClicked, { once: true });
-      });
     }
   }
   // swap players
@@ -78,15 +78,21 @@ function startGame() {
   });
 }
 
-// const restartBtn = document.querySelector('.restart');
-// restartBtn.addEventListener('click', restart);
-// 
-// function restart() {
-//   gameBoard = new Array(9).fill('');
-//   cells.forEach((cell) => (cell.textContent = ''));
-//   console.log(gameBoard);
-//   startGame();
-// }
+function disableBoard() {
+  cells.forEach((cell) => {
+    cell.removeEventListener('click', cellClicked, { once: true });
+  });
+}
+const restartBtn = document.querySelector('.restart');
+restartBtn.addEventListener('click', restart);
 
-// NOTES dont allow to input values after win
+function restart() {
+  gameBoard = new Array(9).fill('');
+  cells.forEach((cell) => (cell.textContent = ''));
+  console.log(gameBoard);
+  startGame();
+}
+
 startGame();
+// NOTES dont allow to input values after win
+// remove disablebuttons func
